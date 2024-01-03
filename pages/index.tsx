@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 // const baseURL = "https://stellular-naiad-f9e846.netlify.app"
-const baseURL = "http://localhost:3000"
+// const baseURL = "http://localhost:3000"
 
 
 //hello
@@ -12,7 +12,7 @@ const transactionsPage = () => {
 
   const fetchTransactions = async (page) => {
     try {
-      const response = await fetch(`${baseURL}/api/transactions?page=${page}`);
+      const response = await fetch(`/api/transactions?page=${page}`);
 
       if (!response.ok) {
         throw new Error(`Failed to fetch transactions: ${response.status} ${response.statusText}`);
