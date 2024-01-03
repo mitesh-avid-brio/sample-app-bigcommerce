@@ -51,41 +51,31 @@ const handleNextPage = () => {
 	    <table>
 	      <thead>
 	        <tr>
-	          <th>Transaction ID</th>
-	          <th>Customer Name</th>
-	          <th>Email</th>
-	          <th>Order ID</th>
-	          <th>Method</th>
-	          <th>Amount</th>
-	          <th>Currency</th>
-	          <th>Gateway</th>
+	        	<th>Order ID</th>
 	          <th>Date Created</th>
-	          <th>AVS Result</th>
-	          <th>CVV Result</th>
+	          <th>Email</th>
+	          <th>Customer Name</th>
+	          <th>Amount</th>
+	          <th>Transaction ID</th>
+	          <th>Method</th>
+	          <th>Gateway</th>
 	          <th>Card Type</th>
-	          <th>Card Last 4</th>
-	          <th>Card Expiry Month</th>
-	          <th>Card Expiry Year</th>
+	          <th>AVS Result</th>
 	        </tr>
 	      </thead>
 	      <tbody>
 	        {transactions.map(transaction => (
 	          <tr key={transaction.id}>
-	            <td>{transaction.id}</td>
-	            <td>{transaction?.customerName}</td>
-	            <td>{transaction?.email}</td>
-	            <td>{transaction.order_id}</td>
-	            <td>{transaction.method}</td>
-	            <td>{transaction.amount}</td>
-	            <td>{transaction.currency}</td>
-	            <td>{transaction.gateway}</td>
+	          	<td>{transaction.order_id}</td>
 	            <td>{transaction.date_created}</td>
-	            <td>{transaction.avs_result.message}</td>
-	            <td>{transaction.cvv_result.message}</td>
+	            <td>{transaction?.email}</td>
+	            <td>{transaction?.customerName}</td>
+	            <td>{transaction.amount}</td>
+	            <td>{transaction.id}</td>
+	            <td>{transaction.method}</td>
+	            <td>{transaction.gateway}</td>
 	            <td>{transaction.credit_card?.card_type }</td>
-	            <td>{transaction.credit_card?.card_last4 }</td>
-	            <td>{transaction.credit_card?.card_expiry_month }</td>
-	            <td>{transaction.credit_card?.card_expiry_year }</td>
+	            <td>{transaction.avs_result.message}</td>
 	          </tr>
 	        ))}
 	      </tbody>
