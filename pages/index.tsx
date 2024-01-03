@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-// const baseURL = "https://gomers.onrender.com"
-const baseURL = "http://localhost:3000"
+const baseURL = "https://stellular-naiad-f9e846.netlify.app"
+// const baseURL = "http://localhost:5000"
 
 const transactionsPage = () => {
   const [transactions, setTransactions] = useState([]);
