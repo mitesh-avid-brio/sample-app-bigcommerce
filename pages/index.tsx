@@ -52,6 +52,8 @@ const handleNextPage = () => {
 	      <thead>
 	        <tr>
 	          <th>Transaction ID</th>
+	          <th>Customer Name</th>
+	          <th>Email</th>
 	          <th>Order ID</th>
 	          <th>Method</th>
 	          <th>Amount</th>
@@ -70,6 +72,8 @@ const handleNextPage = () => {
 	        {transactions.map(transaction => (
 	          <tr key={transaction.id}>
 	            <td>{transaction.id}</td>
+	            <td>{transaction?.customerName}</td>
+	            <td>{transaction?.email}</td>
 	            <td>{transaction.order_id}</td>
 	            <td>{transaction.method}</td>
 	            <td>{transaction.amount}</td>

@@ -28,6 +28,8 @@ export default async function auth(req, res) {
 
       const data = await apiResponse.json();
 
+
+
       const orderIDs = data.map(order=>order.id)
 
         res.writeHead(apiResponse.status, {
@@ -53,7 +55,19 @@ export default async function auth(req, res) {
 
           transactionData = transactionData.map(transaction => (transaction['data'][0])).filter(transaction2=> transaction2!=null)
 
+          transactionData = transactionData.map(transaction => {
 
+              const orderId = transaction.order_id
+              let order = data.filter(order=> order.id == orderId )
+              if(order.length){
+                order=order[0]
+                transaction.customerName = order['billing_address']['first_name']+' ' + order['billing_address']['last_name']
+                transaction.email = order['billing_address']['email']
+              }
+
+              return transaction
+
+          })
 
           res.end(JSON.stringify({transactionData, fromOrders:orderIDs.length}));
 
