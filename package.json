@@ -6,11 +6,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start -p $PORT",
+    "frontend": "npm run dev",
     "server": "node server/index.js",
-    "dev:next": "npm run dev",
-    "dev:server": "npm run server",
-    "dev:all": "npm run dev:next && npm run dev:server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const baseURL = "http://localhost:5000"
+const baseURL = "http://localhost"
 
 const transactionsPage = () => {
   const [transactions, setTransactions] = useState([]);
