@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
-const baseURL = "https://gomers.onrender.com"
+// const baseURL = "https://gomers.onrender.com"
+const baseURL = "http://localhost:3000"
 
 const transactionsPage = () => {
   const [transactions, setTransactions] = useState([]);
