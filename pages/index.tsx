@@ -46,7 +46,7 @@ const handleNextPage = () => {
   return (
     <div>
       <h1>transactions</h1>
-	    <table border="1">
+	    <table>
 	      <thead>
 	        <tr>
 	          <th>Transaction ID</th>
