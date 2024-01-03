@@ -53,16 +53,10 @@ const handleNextPage = () => {
 	        <tr>
 	          <th>Transaction ID</th>
 	          <th>Order ID</th>
-	          <th>Event</th>
 	          <th>Method</th>
 	          <th>Amount</th>
 	          <th>Currency</th>
 	          <th>Gateway</th>
-	          <th>Payment Method ID</th>
-	          <th>Status</th>
-	          <th>Test</th>
-	          <th>Fraud Review</th>
-	          <th>Reference Transaction ID</th>
 	          <th>Date Created</th>
 	          <th>AVS Result</th>
 	          <th>CVV Result</th>
@@ -77,16 +71,10 @@ const handleNextPage = () => {
 	          <tr key={transaction.id}>
 	            <td>{transaction.id}</td>
 	            <td>{transaction.order_id}</td>
-	            <td>{transaction.event}</td>
 	            <td>{transaction.method}</td>
 	            <td>{transaction.amount}</td>
 	            <td>{transaction.currency}</td>
 	            <td>{transaction.gateway}</td>
-	            <td>{transaction.payment_method_id}</td>
-	            <td>{transaction.status}</td>
-	            <td>{transaction.test ? 'True' : 'False'}</td>
-	            <td>{transaction.fraud_review ? 'True' : 'False'}</td>
-	            <td>{transaction.reference_transaction_id}</td>
 	            <td>{transaction.date_created}</td>
 	            <td>{transaction.avs_result.message}</td>
 	            <td>{transaction.cvv_result.message}</td>
