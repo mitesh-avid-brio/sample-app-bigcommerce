@@ -53,13 +53,18 @@ const transactionsPage = () => {
   return (
     <div>
 
-      {isLoading ? (
-        <Box marginVertical="large">
-          <ProgressBar />
-        </Box>
-      ) : (
 
+      {isLoading && (
+      	<>
+	      	<div  style={{position:"fixed", backgroundColor:"white", top: "0px", zIndex: 9999, width:"100%", marginBottom:"20px"}}>
+		        <Box marginVertical="large">
+		          <ProgressBar />
+		        </Box>
+		      </div>
+      	</>
+      )} 
 
+      { transactions.length && (	
 				<Panel
 				  header="Order Transaction Details"
 				>
@@ -91,18 +96,24 @@ const transactionsPage = () => {
 					  items={transactions}
 					  stickyHeader
 					/>
-		      <div style={{margin:"20px",display:"flex", alignItems:"center", justifyContent:"center"}}>
-		        <Button variant="utility"  onClick={handlePreviousPage} disabled={currentPage === 1}>
-		          <ChevronLeftIcon/>
-		        </Button>
-	  				<Button variant="utility">Page {currentPage}</Button>
-	  				<Button variant="utility" onClick={handleNextPage} disabled={fromOrders < 50}>
-		          <ChevronRightIcon  />
-	  				</Button>
-		      </div>
+
+	      {!isLoading && (
+			      <div style={{margin:"20px",display:"flex", alignItems:"center", justifyContent:"center"}}>
+			        <Button variant="utility"  onClick={handlePreviousPage} disabled={currentPage === 1}>
+			          <ChevronLeftIcon/>
+			        </Button>
+		  				<Button variant="utility">Page {currentPage}</Button>
+		  				<Button variant="utility" onClick={handleNextPage} disabled={fromOrders < 50}>
+			          <ChevronRightIcon  />
+		  				</Button>
+			      </div>
+	      )} 
+
+
 				</Panel>
 
-      )}
+			)}
+      
 
 		</div>
   );
