@@ -17,9 +17,11 @@ const bigcommerceSigned = new BigCommerce({
     responseType: 'json'
 });
  
+
 interface QueryParams {
-    [key: string]: string;
+    [key: string]: string | string[];
 }
+
 
 
 export function getBCAuth(query: QueryParams) {
