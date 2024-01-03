@@ -91,7 +91,7 @@ const transactionsPage = () => {
 					  items={transactions}
 					  stickyHeader
 					/>
-		      <div>
+		      <div style={{margin:"20px",display:"flex", alignItems:"center", justifyContent:"center"}}>
 		        <Button variant="utility"  onClick={handlePreviousPage} disabled={currentPage === 1}>
 		          <ChevronLeftIcon/>
 		        </Button>
