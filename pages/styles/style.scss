@@ -1,7 +1,62 @@
 body{
 }
-.bd-button {
-    background-color: #eee;
-    margin-bottom: 13px;
-    float: right;
-}
+// .bd-button {
+//     background-color: #eee !important;
+//     margin-bottom: 13px;
+//     float: right;
+// }
+.scrollableTable {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    resize: both;
+    position: relative;
+    overflow: auto;
+    &:after{
+        content: '';
+        display:block;
+        border: 1em solid #eee;
+        border-top-color: transparent;
+        border-left-color: transparent;
+        position:absolute;
+        bottom:0;
+        right:0;
+    }
+    table{
+        border-collapse: collapse;
+        white-space: nowrap;
+    }
+
+      
+      thead {
+        position: sticky;
+        top: -2px
+      }
+      .tableWrapper{
+        position: relative;
+        overflow: auto;
+        padding: 0 1em 1em 0;
+      }
+      th{
+        top:-2px !important;
+      }
+      th, tr, td{
+        font-size: 14px;
+      }
+  }
+  .radioWrapper{
+    margin-bottom: 10px;
+  }
+  .filterBox{
+    position: absolute;
+    right: 30px;
+    top: 25px;
+    button{
+        background-color: #4d8bff;
+        color: #fff;
+        &:hover{
+            background-color: #4d8bff ;
+            color:#000;
+        }
+    }
+  }

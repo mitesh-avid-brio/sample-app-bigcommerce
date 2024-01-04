@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Panel, Table, Button, Text, Box, ProgressBar, Modal,Radio, Form,FormGroup, Input  } from '@bigcommerce/big-design';
+import { Panel, Table, Button, Text, Box, ProgressBar, Modal,Radio, Form,FormGroup, Input, InputProps  } from '@bigcommerce/big-design';
 
 import{ ChevronRightIcon , ChevronLeftIcon,FilterListIcon  } from  '@bigcommerce/big-design-icons'
 // const baseURL = "https://stellular-naiad-f9e846.netlify.app"
@@ -104,15 +104,18 @@ const transactionsPage = () => {
 				<Panel
 				header="Order Transaction Details"
 				>
-				
-				<Button variant="utility" onClick={() => setIsOpen(true)} className="sortPopUp">
-				<FilterListIcon/>
-				</Button>
+				<div className='filterBox'>
+					<Button variant="utility" onClick={() => setIsOpen(true)} className="sortPopUp">
+					<FilterListIcon/>
+					</Button>
+				</div>
 				
 				{queryValue.length ? (
+					<div>
 					<Button variant="utility" onClick={() => {setQueryValue('');setFinalSearchQuery('')}}>
 					<Text>{selected}:{queryValue}</Text>
 					</Button>
+					</div>
 					):''}
 					
 					<Modal
@@ -133,30 +136,37 @@ const transactionsPage = () => {
 					
 					
 					<div>
+					<div className="radioWrapper">
+						<Radio
+						checked={selected === 'min_order_id'}
+						label="Minimum Order ID"
+						onChange={handleChange}
+						value="min_order_id"
+						className='radioBtns'
+						style={{marginBottom:"30px"}}
+						/>
+					</div>
 					
-					<Radio
-					checked={selected === 'min_order_id'}
-					label="Minimum Order ID"
-					onChange={handleChange}
-					value="min_order_id"
-					/>
-					
-					
-					<Radio
-					checked={selected === 'max_order_id'}
-					label="Maximum Order ID"
-					onChange={handleChange}
-					value="max_order_id"
-					/>
-					
-					
-					<Radio
-					checked={selected === 'customer_email'}
-					label="Customer Email"
-					onChange={handleChange}
-					value="customer_email"
-					/>
-					
+					<div className="radioWrapper">
+						<Radio
+						checked={selected === 'max_order_id'}
+						label="Maximum Order ID"
+						onChange={handleChange}
+						value="max_order_id"
+						className='radioBtns'
+						style={{marginBottom:"30px"}}
+						/>
+					</div>
+					<div className="radioWrapper">
+						<Radio
+						checked={selected === 'customer_email'}
+						label="Customer Email"
+						onChange={handleChange}
+						value="customer_email"
+						className='radioBtns'
+						style={{marginBottom:"30px"}}
+						/>
+					</div>
 					<Input
 					onChange={(event)=>setQueryValue(event.target.value) }
 					placeholder="Query"
@@ -169,34 +179,39 @@ const transactionsPage = () => {
 					
 					</Modal>
 					
-					{transactions.length?(<Table
-					  columns={[
-					    {
-					      header: 'Order ID', hash: 'order_id', render: ({ order_id }) => order_id
-					    },	
-					    {  header: 'Date Created', hash: 'date_created', render: ({ date_created }) => dateFunction(date_created).replace("GMT", "")
-					    },	
-					    {  header: 'Email', hash: 'email', render: ({ email }) => email
-					    },	
-					    {  header: 'Customer Name', hash: 'customerName', render: ({ customerName }) => customerName
-					    },	
-					    {  header: 'Amount', hash: 'amount', render: ({ amount }) => `$${amount}`
-					    },	
-					    {  header: 'Transaction ID', hash: 'id', render: ({ id }) => id
-					    },	
-					    {  header: 'Method', hash: 'method', render: ({ method }) => method
-					    },	
-					    {  header: 'Gateway', hash: 'gateway', render: ({ gateway }) => gateway
-					    },	
-					    {  header: 'Card Type', hash: 'credit_card', render: ({ credit_card }) => credit_card?.card_type
-					    },	
-					    {  header: 'AVS Result', hash: 'avs_result', render: ({ avs_result }) => avs_result.message
-					    }	
-					    
-					  ]}
-					  items={transactions}
-					  stickyHeader
-					/>):''}
+					{transactions.length?(
+						<div className="scrollableTable">
+							<div className="tableWrapper">
+								<Table
+								columns={[
+									{
+									header: 'Order ID', hash: 'order_id', render: ({ order_id }) => order_id
+									},	
+									{  header: 'Date Created', hash: 'date_created', render: ({ date_created }) => dateFunction(date_created).replace("GMT", "")
+									},	
+									{  header: 'Email', hash: 'email', render: ({ email }) => email
+									},	
+									{  header: 'Customer Name', hash: 'customerName', render: ({ customerName }) => customerName
+									},	
+									{  header: 'Amount', hash: 'amount', render: ({ amount }) => `$${amount}`
+									},	
+									{  header: 'Transaction ID', hash: 'id', render: ({ id }) => id
+									},	
+									{  header: 'Method', hash: 'method', render: ({ method }) => method
+									},	
+									{  header: 'Gateway', hash: 'gateway', render: ({ gateway }) => gateway
+									},	
+									{  header: 'Card Type', hash: 'credit_card', render: ({ credit_card }) => credit_card?.card_type
+									},	
+									{  header: 'AVS Result', hash: 'avs_result', render: ({ avs_result }) => avs_result.message
+									}	
+									
+								]}
+								items={transactions}
+								stickyHeader
+								/>
+							</div>
+					</div>):''}
 
 
 {!isLoading && (
