@@ -5,7 +5,16 @@ import{ ChevronRightIcon , ChevronLeftIcon,FilterListIcon  } from  '@bigcommerce
 // const baseURL = "https://stellular-naiad-f9e846.netlify.app"
 // const baseURL = "http://localhost:3000"
 
-
+function dateFunction(dateInput){ 
+// Input date string
+let inputDateStr = dateInput;
+// Create a Date object from the input date string
+let inputDate = new Date(inputDateStr);
+// Format the Date object into RFC-2822 format
+let rfc2822Date = inputDate.toUTCString();
+console.log(rfc2822Date);
+  return rfc2822Date;
+}
 
 
 //hello
@@ -165,7 +174,7 @@ const transactionsPage = () => {
 					    {
 					      header: 'Order ID', hash: 'order_id', render: ({ order_id }) => order_id
 					    },	
-					    {  header: 'Date Created', hash: 'date_created', render: ({ date_created }) => date_created
+					    {  header: 'Date Created', hash: 'date_created', render: ({ date_created }) => dateFunction(date_created).replace("GMT", "")
 					    },	
 					    {  header: 'Email', hash: 'email', render: ({ email }) => email
 					    },	
