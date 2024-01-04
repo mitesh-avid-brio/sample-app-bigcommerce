@@ -12,7 +12,7 @@ import{ ChevronRightIcon , ChevronLeftIcon,FilterListIcon  } from  '@bigcommerce
 const transactionsPage = () => {
   const [transactions, setTransactions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [fromOrders, setFromOrders] = useState(0)
+  const [fromOrders, setFromOrders] = useState(-1)
   const [isLoading, setIsLoading] = useState(true)
   const [isOpen, setIsOpen] = useState(false);
   const [finalSearchQuery, setFinalSearchQuery] = useState('')
@@ -90,7 +90,7 @@ const transactionsPage = () => {
       	</>
       )} 
 
-      { (	
+      { fromOrders !== -1 && (	
 
 				<Panel
 				  header="Order Transaction Details"
@@ -160,34 +160,35 @@ const transactionsPage = () => {
 
 		    </Modal>
 
-				<Table
-				  columns={[
-				    {
-				      header: 'Order ID', hash: 'order_id', render: ({ order_id }) => order_id
-				    },	
-				    {  header: 'Date Created', hash: 'date_created', render: ({ date_created }) => date_created
-				    },	
-				    {  header: 'Email', hash: 'email', render: ({ email }) => email
-				    },	
-				    {  header: 'Customer Name', hash: 'customerName', render: ({ customerName }) => customerName
-				    },	
-				    {  header: 'Amount', hash: 'amount', render: ({ amount }) => amount
-				    },	
-				    {  header: 'Transaction ID', hash: 'id', render: ({ id }) => id
-				    },	
-				    {  header: 'Method', hash: 'method', render: ({ method }) => method
-				    },	
-				    {  header: 'Gateway', hash: 'gateway', render: ({ gateway }) => gateway
-				    },	
-				    {  header: 'Card Type', hash: 'credit_card', render: ({ credit_card }) => credit_card?.card_type
-				    },	
-				    {  header: 'AVS Result', hash: 'avs_result', render: ({ avs_result }) => avs_result.message
-				    }	
-				    
-				  ]}
-				  items={transactions}
-				  stickyHeader
-				/>
+					{transactions.length?(<Table
+					  columns={[
+					    {
+					      header: 'Order ID', hash: 'order_id', render: ({ order_id }) => order_id
+					    },	
+					    {  header: 'Date Created', hash: 'date_created', render: ({ date_created }) => date_created
+					    },	
+					    {  header: 'Email', hash: 'email', render: ({ email }) => email
+					    },	
+					    {  header: 'Customer Name', hash: 'customerName', render: ({ customerName }) => customerName
+					    },	
+					    {  header: 'Amount', hash: 'amount', render: ({ amount }) => amount
+					    },	
+					    {  header: 'Transaction ID', hash: 'id', render: ({ id }) => id
+					    },	
+					    {  header: 'Method', hash: 'method', render: ({ method }) => method
+					    },	
+					    {  header: 'Gateway', hash: 'gateway', render: ({ gateway }) => gateway
+					    },	
+					    {  header: 'Card Type', hash: 'credit_card', render: ({ credit_card }) => credit_card?.card_type
+					    },	
+					    {  header: 'AVS Result', hash: 'avs_result', render: ({ avs_result }) => avs_result.message
+					    }	
+					    
+					  ]}
+					  items={transactions}
+					  stickyHeader
+					/>):''}
+
 
 	      {!isLoading && (
 		      <div style={{margin:"20px",display:"flex", alignItems:"center", justifyContent:"center"}}>
