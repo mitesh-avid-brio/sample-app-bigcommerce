@@ -5,7 +5,16 @@ import{ ChevronRightIcon , ChevronLeftIcon,FilterListIcon  } from  '@bigcommerce
 // const baseURL = "https://stellular-naiad-f9e846.netlify.app"
 // const baseURL = "http://localhost:3000"
 
-
+function dateFunction(dateInput){ 
+// Input date string
+let inputDateStr = dateInput;
+// Create a Date object from the input date string
+let inputDate = new Date(inputDateStr);
+// Format the Date object into RFC-2822 format
+let rfc2822Date = inputDate.toUTCString();
+console.log(rfc2822Date);
+  return rfc2822Date;
+}
 
 
 //hello
@@ -161,33 +170,33 @@ const transactionsPage = () => {
 					</Modal>
 					
 					{transactions.length?(<Table
-						columns={[
-							{
-								header: 'Order ID', hash: 'order_id', render: ({ order_id }) => order_id
-							},	
-							{  header: 'Date Created', hash: 'date_created', render: ({ date_created }) => date_created
-						},	
-						{  header: 'Email', hash: 'email', render: ({ email }) => email
-					},	
-					{  header: 'Customer Name', hash: 'customerName', render: ({ customerName }) => customerName
-				},	
-				{  header: 'Amount', hash: 'amount', render: ({ amount }) => amount
-			},	
-			{  header: 'Transaction ID', hash: 'id', render: ({ id }) => id
-		},	
-		{  header: 'Method', hash: 'method', render: ({ method }) => method
-	},	
-	{  header: 'Gateway', hash: 'gateway', render: ({ gateway }) => gateway
-},	
-{  header: 'Card Type', hash: 'credit_card', render: ({ credit_card }) => credit_card?.card_type
-},	
-{  header: 'AVS Result', hash: 'avs_result', render: ({ avs_result }) => avs_result.message
-}	
-
-]}
-items={transactions}
-stickyHeader
-/>):''}
+					  columns={[
+					    {
+					      header: 'Order ID', hash: 'order_id', render: ({ order_id }) => order_id
+					    },	
+					    {  header: 'Date Created', hash: 'date_created', render: ({ date_created }) => dateFunction(date_created).replace("GMT", "")
+					    },	
+					    {  header: 'Email', hash: 'email', render: ({ email }) => email
+					    },	
+					    {  header: 'Customer Name', hash: 'customerName', render: ({ customerName }) => customerName
+					    },	
+					    {  header: 'Amount', hash: 'amount', render: ({ amount }) => amount
+					    },	
+					    {  header: 'Transaction ID', hash: 'id', render: ({ id }) => id
+					    },	
+					    {  header: 'Method', hash: 'method', render: ({ method }) => method
+					    },	
+					    {  header: 'Gateway', hash: 'gateway', render: ({ gateway }) => gateway
+					    },	
+					    {  header: 'Card Type', hash: 'credit_card', render: ({ credit_card }) => credit_card?.card_type
+					    },	
+					    {  header: 'AVS Result', hash: 'avs_result', render: ({ avs_result }) => avs_result.message
+					    }	
+					    
+					  ]}
+					  items={transactions}
+					  stickyHeader
+					/>):''}
 
 
 {!isLoading && (
