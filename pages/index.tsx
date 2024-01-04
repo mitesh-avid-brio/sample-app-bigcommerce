@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Panel, Table, Button, Text, Box, ProgressBar } from '@bigcommerce/big-design';
+import { Panel, Table, Button, Text, Box, ProgressBar, Modal,Radio, Form,FormGroup, Input  } from '@bigcommerce/big-design';
 
-import{ ChevronRightIcon , ChevronLeftIcon } from  '@bigcommerce/big-design-icons'
+import{ ChevronRightIcon , ChevronLeftIcon,FilterListIcon  } from  '@bigcommerce/big-design-icons'
 // const baseURL = "https://stellular-naiad-f9e846.netlify.app"
 // const baseURL = "http://localhost:3000"
+
+
 
 
 //hello
@@ -12,36 +14,60 @@ const transactionsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [fromOrders, setFromOrders] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
+  const [isOpen, setIsOpen] = useState(false);
+  const [finalSearchQuery, setFinalSearchQuery] = useState('')
+  const [queryValue, setQueryValue] = useState('')
 
-  const fetchTransactions = async (page) => {
+  const [selected, setSelected] = useState('min_order_id');
+
+  const [finalSelected, setFinalSelected] = useState('');
+
+  const handleChange: InputProps['onChange'] = (event) =>{
+    setSelected(event.target.value);
+  }
+
+
+  const fetchTransactions = async () => {
     try {
+      
       setIsLoading(true)
+  		
+      let url = `/api/transactions?page=${currentPage}`
 
-      const response = await fetch(`/api/transactions?page=${page}`);
+      if(queryValue.length){
+      
+      	url+=`&selected=${selected}&queryValue=${queryValue}`
+
+      }
+      	console.log(url)
+
+      const response = await fetch(url);
 
       if (!response.ok) {
         throw new Error(`Failed to fetch transactions: ${response.status} ${response.statusText}`);
-      }
-
+      }			
+      
       let fetchedData = await response.json();
+      console.log('fetchedData', fetchedData)
       let transactionData  = fetchedData.transactionData
       setTransactions(transactionData);
       setFromOrders(parseInt(fetchedData.fromOrders))
       setIsLoading(false)
-      console.log(fetchedData)
     } catch (error) {
       console.error('Error fetching transactions:', error);
     }
   };
+
   useEffect(() => {
-    fetchTransactions(currentPage);
-  }, [currentPage]);
+    fetchTransactions();
+  }, [currentPage, finalSearchQuery, finalSelected]);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
+
 
 	const handleNextPage = () => {
 	  if (fromOrders === 50) {
@@ -51,8 +77,8 @@ const transactionsPage = () => {
 
 
   return (
+    
     <div>
-
 
       {isLoading && (
       	<>
@@ -64,51 +90,116 @@ const transactionsPage = () => {
       	</>
       )} 
 
-      { transactions.length && (	
+      { (	
+
 				<Panel
 				  header="Order Transaction Details"
 				>
-					<Table
-					  columns={[
-					    {
-					      header: 'Order ID', hash: 'order_id', render: ({ order_id }) => order_id
-					    },	
-					    {  header: 'Date Created', hash: 'date_created', render: ({ date_created }) => date_created
-					    },	
-					    {  header: 'Email', hash: 'email', render: ({ email }) => email
-					    },	
-					    {  header: 'Customer Name', hash: 'customerName', render: ({ customerName }) => customerName
-					    },	
-					    {  header: 'Amount', hash: 'amount', render: ({ amount }) => amount
-					    },	
-					    {  header: 'Transaction ID', hash: 'id', render: ({ id }) => id
-					    },	
-					    {  header: 'Method', hash: 'method', render: ({ method }) => method
-					    },	
-					    {  header: 'Gateway', hash: 'gateway', render: ({ gateway }) => gateway
-					    },	
-					    {  header: 'Card Type', hash: 'credit_card', render: ({ credit_card }) => credit_card?.card_type
-					    },	
-					    {  header: 'AVS Result', hash: 'avs_result', render: ({ avs_result }) => avs_result.message
-					    }	
-					    
-					  ]}
-					  items={transactions}
-					  stickyHeader
-					/>
+
+				<Button variant="utility" onClick={() => setIsOpen(true)}>
+          <FilterListIcon/>
+        </Button>
+
+          {queryValue.length ? (
+          	<Button variant="utility" onClick={() => {setQueryValue('');setFinalSearchQuery('')}}>
+          		<Text>{selected}:{queryValue}</Text>
+          	</Button>
+          ):''}
+
+		    <Modal
+		      actions={[
+		        {
+		          text: 'Cancel',
+		          variant: 'subtle',
+		          onClick: () => setIsOpen(false),
+		        },
+		        { text: 'Apply', onClick: () => {setIsOpen(false);setFinalSelected(selected); setCurrentPage(1); setFinalSearchQuery(queryValue) }},
+		      ]}
+		      closeOnClickOutside={false}
+		      closeOnEscKey={true}
+		      header="Filter By"
+		      isOpen={isOpen}
+		      onClose={() => {setIsOpen(false)}}
+		    >
+
+
+		    		<div>
+		    		
+			        <Radio
+			          checked={selected === 'min_order_id'}
+			          label="Minimum Order ID"
+			          onChange={handleChange}
+			          value="min_order_id"
+			        />
+
+		    		
+			        <Radio
+			          checked={selected === 'max_order_id'}
+			          label="Maximum Order ID"
+			          onChange={handleChange}
+			          value="max_order_id"
+			        />
+
+
+			        <Radio
+			          checked={selected === 'customer_email'}
+			          label="Customer Email"
+			          onChange={handleChange}
+			          value="customer_email"
+			        />
+
+			        <Input
+			          onChange={(event)=>setQueryValue(event.target.value) }
+			          placeholder="Query"
+			          type="text"
+			          value={queryValue}
+			        />
+
+			      </div>
+			
+
+		    </Modal>
+
+				<Table
+				  columns={[
+				    {
+				      header: 'Order ID', hash: 'order_id', render: ({ order_id }) => order_id
+				    },	
+				    {  header: 'Date Created', hash: 'date_created', render: ({ date_created }) => date_created
+				    },	
+				    {  header: 'Email', hash: 'email', render: ({ email }) => email
+				    },	
+				    {  header: 'Customer Name', hash: 'customerName', render: ({ customerName }) => customerName
+				    },	
+				    {  header: 'Amount', hash: 'amount', render: ({ amount }) => amount
+				    },	
+				    {  header: 'Transaction ID', hash: 'id', render: ({ id }) => id
+				    },	
+				    {  header: 'Method', hash: 'method', render: ({ method }) => method
+				    },	
+				    {  header: 'Gateway', hash: 'gateway', render: ({ gateway }) => gateway
+				    },	
+				    {  header: 'Card Type', hash: 'credit_card', render: ({ credit_card }) => credit_card?.card_type
+				    },	
+				    {  header: 'AVS Result', hash: 'avs_result', render: ({ avs_result }) => avs_result.message
+				    }	
+				    
+				  ]}
+				  items={transactions}
+				  stickyHeader
+				/>
 
 	      {!isLoading && (
-			      <div style={{margin:"20px",display:"flex", alignItems:"center", justifyContent:"center"}}>
-			        <Button variant="utility"  onClick={handlePreviousPage} disabled={currentPage === 1}>
-			          <ChevronLeftIcon/>
-			        </Button>
-		  				<Button variant="utility">Page {currentPage}</Button>
-		  				<Button variant="utility" onClick={handleNextPage} disabled={fromOrders < 50}>
-			          <ChevronRightIcon  />
-		  				</Button>
-			      </div>
+		      <div style={{margin:"20px",display:"flex", alignItems:"center", justifyContent:"center"}}>
+		        <Button variant="utility"  onClick={handlePreviousPage} disabled={currentPage === 1}>
+		          <ChevronLeftIcon/>
+		        </Button>
+	  				<Button variant="utility">Page {currentPage}</Button>
+	  				<Button variant="utility" onClick={handleNextPage} disabled={fromOrders < 50}>
+		          <ChevronRightIcon  />
+	  				</Button>
+		      </div>
 	      )} 
-
 
 				</Panel>
 

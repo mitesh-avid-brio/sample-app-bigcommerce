@@ -15,7 +15,30 @@ export default async function auth(req, res) {
     const url = new URL(req.url, `http://${req.headers.host}`);
     const page = url.searchParams.get('page') || 1; // Default to page 1 if not provided
 
-    const apiUrl = `https://api.bigcommerce.com/stores/${storeHash}/v2/orders?page=${page}`;
+    const isSelectedPresent = url.searchParams.has('selected');
+
+    let apiUrl
+
+    if(!isSelectedPresent)
+
+      apiUrl = `https://api.bigcommerce.com/stores/${storeHash}/v2/orders?page=${page}&sort=date_created:desc`;
+    
+    else{
+      
+      var selected = url.searchParams.get('selected');
+      
+      var query = url.searchParams.get('queryValue')
+
+      apiUrl = `https://api.bigcommerce.com/stores/${storeHash}/v2/orders?page=${page}`
+
+      if(selected == 'min_order_id')
+        apiUrl += `&min_id=${query}&sort=id:asc `
+      else if(selected == 'max_order_id')
+        apiUrl += `&max_id=${query}&sort=id:desc`
+      else if (selected == 'customer_email') 
+        apiUrl += `&email=${query}&sort=date_created:desc`
+
+    }
 
     try {
       const apiResponse = await fetch(apiUrl, {
@@ -28,18 +51,20 @@ export default async function auth(req, res) {
 
       const data = await apiResponse.json();
 
+      console.log(data)
 
+      if(data.length && data[0].status== 400)          res.end(JSON.stringify({transactionData:[], fromOrders:0}));
 
-      const orderIDs = data.map(order=>order.id)
+      const orderIDs =  data.map(order=>order.id)
 
         res.writeHead(apiResponse.status, {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*', // Adjust this based on your requirements
         });
 
+        console.log(orderIDs.length)
 
-      if(!orderIDs.length)
-        res.end("{transactionData:[], fromOrders:0}");
+      if(orderIDs.length){
 
       const transactionURLs = orderIDs.map(orderID => `https://api.bigcommerce.com/stores/${storeHash}/v3/orders/${orderID}/transactions`)
 
@@ -75,9 +100,15 @@ export default async function auth(req, res) {
         } catch (error) {
         
           console.error('Error fetching transactions:', error);
-          res.end("[]");
+          res.end(JSON.stringify({transactionData:[], fromOrders:0}));
         
         }
+
+      }else{
+
+        res.end(JSON.stringify({transactionData:[], fromOrders:0}));
+
+      }
 
 
 
@@ -89,18 +120,6 @@ export default async function auth(req, res) {
     // res.writeHead(404, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Not Found' }));
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     } catch (error) {
