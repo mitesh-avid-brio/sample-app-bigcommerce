@@ -180,7 +180,7 @@ const transactionsPage = () => {
 					    },	
 					    {  header: 'Customer Name', hash: 'customerName', render: ({ customerName }) => customerName
 					    },	
-					    {  header: 'Amount', hash: 'amount', render: ({ amount }) => amount
+					    {  header: 'Amount', hash: 'amount', render: ({ amount }) => `$${amount}`
 					    },	
 					    {  header: 'Transaction ID', hash: 'id', render: ({ id }) => id
 					    },	
