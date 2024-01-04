@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Panel, Table, Button, Text, Box, ProgressBar, Modal,Radio, Form,FormGroup, Input  } from '@bigcommerce/big-design';
+import { Panel, Table, Button, Text, Box, ProgressBar, Modal,Radio, Form,FormGroup, Input, InputProps  } from '@bigcommerce/big-design';
 
 import{ ChevronRightIcon , ChevronLeftIcon,FilterListIcon  } from  '@bigcommerce/big-design-icons'
 // const baseURL = "https://stellular-naiad-f9e846.netlify.app"
