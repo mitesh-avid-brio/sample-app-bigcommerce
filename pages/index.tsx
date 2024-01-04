@@ -113,7 +113,7 @@ const transactionsPage = () => {
 				{queryValue.length ? (
 					<div>
 					<Button variant="utility" onClick={() => {setQueryValue('');setFinalSearchQuery('')}}>
-					<Text>{selected}:{queryValue}</Text>
+					<Text>{selected}:{queryValue}   X</Text>
 					</Button>
 					</div>
 					):''}
