@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Panel, Table, Button, Text, Box, ProgressBar } from '@bigcommerce/big-design';
+import { Panel, Table, Button, Text, Box, ProgressBar, Form, FormGroup, Input } from '@bigcommerce/big-design';
 
 import{ ChevronRightIcon , ChevronLeftIcon } from  '@bigcommerce/big-design-icons'
 // const baseURL = "https://stellular-naiad-f9e846.netlify.app"
@@ -63,7 +63,6 @@ const transactionsPage = () => {
 		      </div>
       	</>
       )} 
-
       { transactions.length && (	
 				<Panel
 				  header="Order Transaction Details"
