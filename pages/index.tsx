@@ -189,16 +189,23 @@ const transactionsPage = () => {
 									},	
 									{  header: 'Date Created', hash: 'date_created', render: ({ date_created }) => dateFunction(date_created).replace("GMT", "")
 									},	
-									{  header: 'Email', hash: 'email', render: ({ email }) => email
-									},	
+	
 									{  header: 'Customer Name', hash: 'customerName', render: ({ customerName }) => customerName
 									},	
 									{  header: 'Amount', hash: 'amount', render: ({ amount }) => `$${amount}`
 									},	
 									{  header: 'Transaction ID', hash: 'id', render: ({ id }) => id
 									},	
+									
 									{  header: 'Method', hash: 'method', render: ({ method }) => method
-									},	
+									},
+
+									
+									{  header: 'Transaction Status', hash: 'transaction_status', render: ({ status }) => status
+									},
+
+
+
 									{  header: 'Gateway', hash: 'gateway', render: ({ gateway }) => gateway
 									},	
 									{  header: 'Card Type', hash: 'credit_card', render: ({ credit_card }) => credit_card?.card_type
