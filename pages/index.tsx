@@ -210,7 +210,7 @@ const transactionsPage = () => {
 									},	
 									{  header: 'Card Type', hash: 'credit_card', render: ({ credit_card }) => credit_card?.card_type
 									},	
-									{  header: 'AVS Result', hash: 'avs_result', render: ({ avs_result }) => avs_result.message
+									{  header: 'AVS Result', hash: 'avs_result', render: ({ avs_result }) => avs_result?.message
 									}	
 									
 								]}
